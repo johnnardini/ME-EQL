@@ -1,3 +1,8 @@
+# Added by John
+*.sh
+*scratch*
+*.out
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

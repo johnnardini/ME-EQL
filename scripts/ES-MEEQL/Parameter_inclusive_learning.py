@@ -277,10 +277,10 @@ def partition_data(data_type,CV_nums,IC,drp):
         model_str = "ABM"
         file_header = "logistic_ABM_sim"
         file_ending = "_real25"
-    elif data_type == "smooth_ABM":
-        model_str = "data_smooth_deriv"
-        file_header = "logistic_ABM_sim"
-        file_ending = ""
+    # elif data_type == "smooth_ABM":
+    #     model_str = "data_smooth_deriv"
+    #     file_header = "logistic_ABM_sim"
+    #     file_ending = ""
     elif "mean_field" in data_type:
         model_str = f"Data_{data_type}"
         file_header = "gen_mfld_data"
@@ -290,16 +290,8 @@ def partition_data(data_type,CV_nums,IC,drp):
     for rp in rp_sparse:
         rd = rp/2
         rp, rd = format_rp_rd(rp,rd)
-        files.append(f'data/{model_str}/{file_header}_rp_{rp:.2f}_rd_{rd}_rm_1_m_{IC}{file_ending}.npy')
-    if drp == 0.01 or drp == 1.0:
-        files.append(f'data/{model_str}/{file_header}_rp_5.00_rd_2.5_rm_1_m_{IC}{file_ending}.npy')
-    
-    # if data_type == "ABM":
-    #     files = glob.glob(f"data/ABM/*m_{IC}*.npy")
-    # elif data_type == "MF":
-    #     files = glob.glob(f"data/Data_mean_field/*m_{IC}*.npy")
-    # files.sort()
-    #lists to store the train/val splits
+        files.append(f'../../data/{model_str}/{file_header}_rp_{rp:.2f}_rd_{rd}_rm_1_m_{IC}{file_ending}.npy')
+
     files_Train_list = []
     files_Test_list = []
 
@@ -403,10 +395,10 @@ def perform_final_model_selection(data_type, xi_vote_params_sindy,drp):
         model_str = "ABM"
         file_header = "logistic_ABM_sim"
         file_ending = "_real25"
-    elif data_type == "smooth_ABM":
-        model_str = "data_smooth_deriv"
-        file_header = "logistic_ABM_sim"
-        file_ending = ""
+    # elif data_type == "smooth_ABM":
+    #     model_str = "data_smooth_deriv"
+    #     file_header = "logistic_ABM_sim"
+    #     file_ending = ""
     elif "mean_field" in data_type:
         model_str = f"Data_{data_type}"
         file_header = "gen_mfld_data"
@@ -415,12 +407,10 @@ def perform_final_model_selection(data_type, xi_vote_params_sindy,drp):
     for rp in rp_sparse:
         rd = rp/2
         rp, rd = format_rp_rd(rp,rd)
-        files.append(f'data/{model_str}/{file_header}_rp_{rp:.2f}_rd_{rd}_rm_1_m_{IC}{file_ending}.npy')
-    if drp == 0.01 or drp == 1.0:
-        files.append(f'data/{model_str}/{file_header}_rp_5.00_rd_2.5_rm_1_m_{IC}{file_ending}.npy')
+        files.append(f'../../data/{model_str}/{file_header}_rp_{rp:.2f}_rd_{rd}_rm_1_m_{IC}{file_ending}.npy')
         
     CDs, ts, Pps = tensor_data_build(files)
-
+    
     ### To be optimized
     def cost_function(coeffs, CDs, ts, Pps, param_degree,
                                               C_degree): #print(coeffs)
@@ -441,13 +431,16 @@ CV_nums = 10
 param_degree = 1
 C_degree = 10
 
-data_type = "ABM"#"mean_field_morenoise"#ABM, "smooth_ABM"
+data_type = "mean_field_lessnoise"#"mean_field_morenoise"#ABM, "smooth_ABM"
 
 drps = [0.01, 0.1, 0.5, 1]
 ICs = [0.05, 0.25]
 
 index = int(sys.argv[1])
 drp, IC = drps[index%4],ICs[index//4]
+
+data_type = sys.argv[2]
+assert data_type in ["ABM","mean_field_nonoise","mean_field_lessnoise"], "data_type must equal \"ABM\", \"mean_field_nonoise\", or \"mean_field_lessnoise\""
 
 print(drp, IC)
 
@@ -473,4 +466,4 @@ data = {"xi":coeffs_sindy_opt,
         "learned_C_degrees":learned_C_degrees, 
         "learned_param_degrees":learned_param_degrees}
 
-np.save(f"learned_coeffs_{data_type}_param_degree_{param_degree}_C_degree_{C_degree}_IC_{IC}_drp_{drp}.npy",data)
+np.save(f"../../results/ES-MEEQL/learned_coeffs_{data_type}_param_degree_{param_degree}_C_degree_{C_degree}_IC_{IC}_drp_{drp}.npy",data)
