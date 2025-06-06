@@ -272,7 +272,7 @@ def trans_rev(x):
 def partition_data(data_type,CV_nums,IC,drp):
     
     
-    rp_sparse = np.arange(0.01,5,drp)
+    rp_sparse = np.arange(0.01,5.01,drp)
     if data_type == "ABM":
         model_str = "ABM"
         file_header = "logistic_ABM_sim"
@@ -390,15 +390,11 @@ def perform_final_model_selection(data_type, xi_vote_params_sindy,drp):
     learned_C_degrees = (degs_sindy%C_degree)+1
     learned_param_degrees = (degs_sindy//C_degree)+1
 
-    rp_sparse = np.arange(0.01,5,drp)
+    rp_sparse = np.arange(0.01,5.01,drp)
     if data_type == "ABM":
         model_str = "ABM"
         file_header = "logistic_ABM_sim"
         file_ending = "_real25"
-    # elif data_type == "smooth_ABM":
-    #     model_str = "data_smooth_deriv"
-    #     file_header = "logistic_ABM_sim"
-    #     file_ending = ""
     elif "mean_field" in data_type:
         model_str = f"Data_{data_type}"
         file_header = "gen_mfld_data"
