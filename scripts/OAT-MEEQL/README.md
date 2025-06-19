@@ -1,4 +1,6 @@
 The OAT ME-EQL folder contains script files and results from performing the one-at-a-time multi-experiment analysis for mean-field and ABM model datasets across proliferation rates. 
 
-The notebook "OAT_ME_EQL_learning_mean_field
+The Python notebook OAT_ME_EQL_learning_mean_field.ipynb can be used to run OAT equation learning for mean-field data corresponding to each proliferation rate parameter. The results get saved as pickle files in the folder pickle_data_mean_field_less_noise or pickle_data_mean_field_nonoise, depending on the noise in the datasets. This notebook also shows an example fit of the data with one parameter, visualizes the coefficients and models learned across parameters, carries out OAT ME-EQL interpolation for sparse datasets, and compares the learned models using OAT ME-EQL, ES ME-EQL and mean-field approaches. 
+
+Similarly, the Python notebook OAT_ME_EQL_learning_ABM.ipynb can be used to run OAT equation learning for ABM data corresponding to each proliferation rate parameter. The results get saved as pickle files in the folder pickle_data_ABM. This notebook also shows an example fit of the data with one parameter, visualizes the coefficients and models learned across parameters, carries out OAT ME-EQL interpolation for sparse datasets, and compares the learned models using OAT ME-EQL, ES ME-EQL and mean-field approaches. 
 
