@@ -6,4 +6,4 @@ This code accompanies "[Enhancing generalizability of model discovery across par
 * The directory `scripts/` contains the code used to generate data and perform ME-EQL
 * The directory `results/` contains the results files for ME-EQL
 
-Please contact Veronica Ciocanel at ciocanel@math.duke.edu and John Nardini at nardinij@tcnj.edu if you have any questions.
+Please contact Veronica Ciocanel at veronica.ciocanel@duke.edu and John Nardini at nardinij@tcnj.edu if you have any questions.
