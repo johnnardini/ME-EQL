@@ -41,7 +41,7 @@ def format_rp_rd(rp,rd):
 def BDM_RHS(t, C, Pp, coefs, param_degree=1, C_degree = 4):
     """
     Calculates the right-hand side (RHS) of the differential equation (dC/dt)
-    using a Basis Data Model (BDM) with polynomial features.
+    using for the BDM ABM with polynomial features.
 
     The features are constructed from powers of the parameter (Pp) and the
     concentration (C), and the RHS is a linear combination of these features
@@ -97,7 +97,7 @@ def forward_solve(t, IC, Pp, coefficients, param_degree=1, C_degree = 4):
 
     Args:
         t (np.ndarray): Array of time points at which to evaluate the solution.
-        IC (float or np.ndarray): The initial condition C(t[0]).
+        IC (float or np.ndarray): The initial condition C0.
         Pp (float): The reaction parameter (rp).
         coefficients (list of np.ndarray): Coefficients for the BDM_RHS function.
         param_degree (int or np.ndarray, optional): Parameter degree(s) for BDM_RHS. Defaults to 1.
@@ -120,7 +120,7 @@ def tensor_data_build(files):
     extracts the concentration, time, and reaction parameters (Pp).
 
     It is assumed that each file contains a dictionary with keys:
-    'variables' (a list/array where index 1 is C and index 0 is t),
+    'variables' (a list/array where index 0 is t and index 1 is C),
     'rp' (reaction parameter Pp), 'rd', and 'rm'.
 
     Args:
@@ -283,7 +283,7 @@ def unified_model_training(optimizer,files,param_degree=1,C_degree = 4):
 
 def unified_library_build(files,param_degree=1,C_degree = 4):
     """
-    Constructs the unified library matrix (Theta) and derivative data (Ct)
+    Constructs the embedded structure library matrix (Theta) and derivative data (Ct)
     from multiple simulation files for SINDy training.
 
     It iterates through files, extracts concentration (C), derivative (Ct),
@@ -413,8 +413,6 @@ def find_opt_with_threshold(aic_list,old_opt,max_param_size,coeff_list,CV_nums):
              coefficient magnitude constraint.
     """
 
-    # '''Only consider AIC scores for values of lambda where no parameters exceed max_param_size=50'''
-
     for kk in range(old_opt,len(aic_list)+1):
         num_past_thresh = 0
 
@@ -447,19 +445,6 @@ def trans(x,N):
     Returns:
         np.ndarray: A 2D numpy array representing the binary vector.
     """
-    # '''
-    # convert decimal number to binary representation
-
-    # inputs:
-
-    # x           : number
-    # N           : length of binary representation
-
-    # outputs:
-
-    # w           : binary vector from x
-    # '''
-
     y=np.copy(x)
     if y == 0: return[0]
     bit = []
@@ -482,19 +467,6 @@ def trans_rev(x):
     Returns:
         int: The resulting decimal number.
     """
-    # '''
-    # convert binary representation to decimal number
-
-    # inputs:
-
-    # x           : binary vector
-
-    # outputs:
-
-    # dec         : decimal number
-    # '''
-
-
     n = len(x)-1
     dec = 0
     for i in np.arange(n+1):
@@ -690,7 +662,7 @@ def perform_final_model_selection(data_type, xi_vote_params_sindy,drp,IC,param_d
     the ground truth data.
 
     Args:
-        data_type (str): Identifier for the data source (e.g., "ABM", "mean_field").
+        data_type (str): Identifier for the data source (e.g., "ABM", "mean_field_no_noise").
         xi_vote_params_sindy (np.ndarray): The mean coefficient vector for the
                                            most popular SINDy model structure.
         drp (float): The step size for generating the reaction parameter (rp) values

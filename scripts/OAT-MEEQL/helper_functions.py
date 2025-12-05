@@ -160,7 +160,7 @@ def format_rp_rd(rp,rd):
     rp : float
         The proliferation rate, $r_p$.
     rd : float
-        The death rate, $r_d$. Note: $r_d$ is recalculated inside the function.
+        The death rate, $r_d$.
 
     Returns
     -------
@@ -245,10 +245,10 @@ def meanfield_RHS(u,t,xi):
     return dudt
 
 #ODE RHS for BDM model
-def BDM_RHS(t, x, coefs,deg):
+def BDM_RHS(t, x, coefs, deg):
     '''
-    Right-Hand Side (RHS) function for the BDM (Bi-directional Migration) model ODE,
-    designed to work with `scipy.integrate.solve_ivp`.
+    Right-Hand Side (RHS) function for learned DE for the BDM  model.
+    Designed to work with `scipy.integrate.solve_ivp`.
     This version uses the degree of the polynomial library to construct the features.
 
     Parameters
@@ -579,7 +579,7 @@ def ES_sindy_coefficient_values(noise, IC, drp, rp_vect):
     '''
     Provides a library of pre-calculated SINDy coefficient vectors and the
     corresponding active degrees based on experimental conditions (noise level,
-    initial condition (IC), relative death rate (drp), and a vector of proliferation rates (rp_vect)).
+    initial condition (IC), spacing between rp values (drp), and a vector of proliferation rates (rp_vect)).
 
     This function appears to act as a lookup table for expected SINDy models
     under various simulated conditions.
